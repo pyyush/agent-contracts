@@ -25,7 +25,7 @@ def hooks(tmp_path: Path, tier1_data: Dict[str, Any]) -> ContractRunHooks:
 
 def run_async(coro):
     """Helper to run async tests."""
-    return asyncio.get_event_loop().run_until_complete(coro)
+    return asyncio.run(coro)
 
 
 class TestContractRunHooks:

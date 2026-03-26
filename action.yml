@@ -43,8 +43,9 @@ runs:
         outcome="pass"
         for contract in ${{ inputs.contract }}; do
           echo "::group::Validating $contract"
-          if aicontracts validate "$contract" -j; then
-            tier=$(aicontracts validate "$contract" -j | python3 -c "import sys,json; print(json.load(sys.stdin)['tier'])")
+          result=$(aicontracts validate "$contract" -j)
+          if [ $? -eq 0 ]; then
+            tier=$(echo "$result" | python3 -c "import sys,json; print(json.load(sys.stdin)['tier'])")
             echo "tier=$tier" >> "$GITHUB_OUTPUT"
           else
             outcome="fail"

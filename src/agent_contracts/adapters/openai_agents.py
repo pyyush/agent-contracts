@@ -128,7 +128,7 @@ class ContractRunHooks(RunHooks):  # type: ignore[misc]
         """Called when an agent finishes — evaluate postconditions."""
         try:
             self._enforcer.evaluate_postconditions(output)
-        except Exception:
+        except ContractViolation:
             if self._raise_on_violation:
                 raise
 
