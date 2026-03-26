@@ -28,6 +28,8 @@ src/agent_contracts/
     langchain.py                      LangChain CallbackHandler
     crewai.py                         CrewAI ContractGuard
     pydantic_ai.py                    Pydantic AI ContractMiddleware
+    openai_agents.py                  OpenAI Agents SDK RunHooks
+    claude_agent.py                   Claude Agent SDK ContractHooks
 examples/                             Reference contracts (Tier 0, 1, 2)
 tests/                                pytest test suite
 ```

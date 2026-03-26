@@ -16,7 +16,7 @@ from agent_contracts.composition import CompatibilityReport, check_compatibility
 from agent_contracts.effects import EffectDeniedError, EffectGuard
 from agent_contracts.enforcer import ContractEnforcer, ContractViolation, enforce_contract
 from agent_contracts.loader import ContractLoadError, load_contract, validate_contract
-from agent_contracts.postconditions import PostconditionError
+from agent_contracts.postconditions import PostconditionError, PreconditionError
 from agent_contracts.tier import TierRecommendation, assess_tier, recommend_upgrades
 from agent_contracts.types import (
     Contract,
@@ -27,6 +27,7 @@ from agent_contracts.types import (
     FailureModel,
     ObservabilityConfig,
     PostconditionDef,
+    PreconditionDef,
     ResourceBudgets,
     SLOConfig,
     VersioningConfig,
@@ -39,6 +40,7 @@ __all__ = [
     "Contract",
     "ContractIdentity",
     "PostconditionDef",
+    "PreconditionDef",
     "EffectsAuthorized",
     "EffectsDeclared",
     "ResourceBudgets",
@@ -67,6 +69,7 @@ __all__ = [
     "BudgetExceededError",
     # Postconditions
     "PostconditionError",
+    "PreconditionError",
     # Violations
     "ViolationEvent",
     "ViolationEmitter",

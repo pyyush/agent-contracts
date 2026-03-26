@@ -1,5 +1,8 @@
 # Agent Contracts
 
+[![PyPI](https://img.shields.io/pypi/v/aicontracts)](https://pypi.org/project/aicontracts/)
+[![CI](https://github.com/pyyush/agentcontracts/actions/workflows/ci.yml/badge.svg)](https://github.com/pyyush/agentcontracts/actions/workflows/ci.yml)
+
 **YAML spec + validation SDK for production agent reliability.**
 
 Cost control, tool-use security, and audit trails in under 30 minutes of integration. Works with any framework. Enforces at the runtime layer, not via prompts.
@@ -96,6 +99,20 @@ result = guard.execute(crew, inputs={"query": query})
 from agent_contracts.adapters.pydantic_ai import ContractMiddleware
 middleware = ContractMiddleware.from_file("AGENT_CONTRACT.yaml")
 result = await middleware.run(agent, prompt)
+```
+
+**OpenAI Agents SDK:**
+```python
+from agent_contracts.adapters.openai_agents import ContractRunHooks
+hooks = ContractRunHooks.from_file("AGENT_CONTRACT.yaml")
+result = await Runner.run(agent, "prompt", run_hooks=[hooks])
+```
+
+**Claude Agent SDK:**
+```python
+from agent_contracts.adapters.claude_agent import ContractHooks
+hooks = ContractHooks.from_file("AGENT_CONTRACT.yaml")
+# Pass hooks.pre_tool_use to ClaudeAgentOptions
 ```
 
 ## Three Tiers
