@@ -14,7 +14,7 @@ from agent_contracts._version import __version__
 
 
 @click.group()
-@click.version_option(version=__version__, prog_name="agent-contracts")
+@click.version_option(version=__version__, prog_name="agentcontracts")
 def main() -> None:
     """Agent Contracts — YAML spec + SDK for production agent reliability."""
     pass

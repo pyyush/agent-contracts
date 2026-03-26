@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/pyyush/agent-contracts/schemas/agent-contract.schema.json",
+  "$id": "https://github.com/pyyush/agentcontracts/schemas/agent-contract.schema.json",
   "title": "Agent Contract",
   "description": "YAML specification for enforceable agent behavioral contracts. Supports three graduated tiers: Standalone (Tier 0), Enforceable (Tier 1), and Composable (Tier 2).",
   "type": "object",
