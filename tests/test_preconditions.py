@@ -3,18 +3,17 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 import pytest
 import yaml
 
-from agent_contracts.postconditions import (
-    PreconditionError,
-    PreconditionResult,
-    evaluate_preconditions,
-)
 from agent_contracts.enforcer import ContractEnforcer, ContractViolation
 from agent_contracts.loader import load_contract
+from agent_contracts.postconditions import (
+    PreconditionError,
+    evaluate_preconditions,
+)
 from agent_contracts.types import PreconditionDef
 
 

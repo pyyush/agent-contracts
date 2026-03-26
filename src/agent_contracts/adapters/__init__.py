@@ -7,4 +7,6 @@ to use an adapter:
     pip install aicontracts[langchain]
     pip install aicontracts[crewai]
     pip install aicontracts[pydantic-ai]
+    pip install aicontracts[openai]
+    pip install aicontracts[claude]       # Python 3.10+
 """

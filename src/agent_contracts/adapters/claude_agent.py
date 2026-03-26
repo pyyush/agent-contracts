@@ -76,7 +76,6 @@ class ContractHooks:
         Returns structured deny if tool is not authorized.
         Returns empty dict to allow execution.
         """
-        tool_input = input_data.get("tool_input", {})
         tool_name = input_data.get("tool_name", "")
 
         try:

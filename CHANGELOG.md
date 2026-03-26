@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.1] - 2026-03-26
+
+### Added
+
+- **OpenAI Agents SDK Adapter** — `ContractRunHooks(RunHooks)` for effect gating via `on_tool_start`, token tracking via `on_llm_end`, postcondition evaluation via `on_agent_end`. Pinned to `openai-agents==0.8.4`
+- **Claude Agent SDK Adapter** — `ContractHooks` with structured deny via PreToolUse (not exception). Cost/token extraction from ResultMessage. Pinned to `claude-agent-sdk==0.1.50` (Python 3.10+)
+- **Precondition Evaluation** — `contract.preconditions[]` evaluated on input BEFORE agent runs. Reuses CEL-like expression evaluator. `PreconditionError` blocks execution before tokens are spent. Wired into `ContractEnforcer.check_preconditions()` and `@enforce_contract` decorator
+- **GitHub Action** — `pyyush/agentcontracts@v0.1.1` composite action for CI contract validation
+- **README Badge** — PyPI version and CI status badges
+- 35 new tests (188 total)
+
 ## [0.1.0] - 2026-03-25
 
 First release. YAML spec + Python SDK for production agent reliability.
@@ -32,4 +43,5 @@ First release. YAML spec + Python SDK for production agent reliability.
 - **Specification** — Human-readable spec narrative (`SPECIFICATION.md`)
 - **Examples** — Reference contracts for all 3 tiers
 
+[0.1.1]: https://github.com/pyyush/agentcontracts/releases/tag/v0.1.1
 [0.1.0]: https://github.com/pyyush/agentcontracts/releases/tag/v0.1.0
