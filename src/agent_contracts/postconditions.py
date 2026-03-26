@@ -16,7 +16,7 @@ import re
 from dataclasses import dataclass
 from typing import Any, Callable, Dict, List, Optional
 
-from agent_contracts.types import PostconditionDef
+from agent_contracts.types import PostconditionDef, PreconditionDef
 
 # Safe operators for expression evaluation
 _OPERATORS = {
@@ -192,6 +192,50 @@ def evaluate_expression(check: str, context: Dict[str, Any]) -> bool:
     # Fallback: treat as a path and check truthiness
     val = _resolve_path(context, check)
     return bool(val)
+
+
+class PreconditionError(Exception):
+    """Raised when a precondition fails (input rejected before agent runs)."""
+
+    def __init__(self, precondition: PreconditionDef, input_data: Any) -> None:
+        self.precondition = precondition
+        self.input_data = input_data
+        super().__init__(
+            f"Precondition '{precondition.name}' failed: {precondition.check}"
+        )
+
+
+@dataclass
+class PreconditionResult:
+    """Result of evaluating a precondition."""
+
+    precondition: PreconditionDef
+    passed: bool
+
+
+def evaluate_preconditions(
+    preconditions: List[PreconditionDef],
+    input_data: Any,
+    *,
+    raise_on_failure: bool = True,
+) -> List[PreconditionResult]:
+    """Evaluate all preconditions against input data.
+
+    Preconditions use the same expression evaluator as postconditions.
+    Context key is 'input' instead of 'output'.
+
+    If raise_on_failure is True, raises PreconditionError on first failure.
+    """
+    context: Dict[str, Any] = {"input": input_data}
+
+    results: List[PreconditionResult] = []
+    for pc in preconditions:
+        passed = evaluate_expression(pc.check, context)
+        results.append(PreconditionResult(precondition=pc, passed=passed))
+        if not passed and raise_on_failure:
+            raise PreconditionError(pc, input_data)
+
+    return results
 
 
 @dataclass

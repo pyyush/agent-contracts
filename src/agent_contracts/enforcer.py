@@ -22,7 +22,10 @@ from agent_contracts.effects import EffectGuard
 from agent_contracts.loader import load_contract
 from agent_contracts.postconditions import (
     PostconditionResult,
+    PreconditionError,
+    PreconditionResult,
     evaluate_postconditions,
+    evaluate_preconditions,
 )
 from agent_contracts.types import Contract
 from agent_contracts.violations import ViolationEmitter, ViolationEvent
@@ -76,6 +79,31 @@ class ContractEnforcer:
     @property
     def warnings(self) -> List[str]:
         return list(self._warnings)
+
+    # --- Precondition evaluation ---
+
+    def check_preconditions(self, input_data: Any) -> List[PreconditionResult]:
+        """Evaluate preconditions against input data before agent runs.
+
+        Raises ContractViolation if any precondition fails.
+        Returns empty list if no preconditions are defined.
+        """
+        if not self._contract.preconditions:
+            return []
+        try:
+            return evaluate_preconditions(
+                self._contract.preconditions, input_data, raise_on_failure=True
+            )
+        except PreconditionError as e:
+            event = self._emitter.create_event(
+                contract_id=self._contract.identity.name,
+                contract_version=self._contract.identity.version,
+                violated_clause=f"inputs.preconditions.{e.precondition.name}",
+                evidence={"check": e.precondition.check},
+                severity="critical",
+                enforcement="blocked",
+            )
+            raise ContractViolation(str(e), event=event) from e
 
     # --- Input validation ---
 
@@ -267,6 +295,10 @@ def enforce_contract(
                     raise ContractViolation(
                         f"Input validation failed: {errors}"
                     )
+
+            # Pre: evaluate preconditions
+            if args and contract.preconditions:
+                enforcer.check_preconditions(args[0])
 
             result = fn(*args, **kwargs)
 
